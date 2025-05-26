@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react';
 
@@ -374,6 +373,13 @@ const threadData = {
   }
 };
 
+// Type definitions for better TypeScript support
+interface FrameworkStructureItem {
+  platform: string;
+  function: string;
+  examples?: string[];
+}
+
 const ThreadReader = () => {
   const [currentChunk, setCurrentChunk] = useState(0);
   const [selectedConcept, setSelectedConcept] = useState(null);
@@ -627,20 +633,24 @@ const ThreadReader = () => {
 
                   {block.type === 'framework' && block.structure && (
                     <div className="grid md:grid-cols-3 gap-4">
-                      {Object.entries(block.structure).map(([key, value]) => (
-                        <div key={key} className="bg-gray-800/50 rounded-lg p-4">
-                          <h3 className="font-semibold text-blue-400 mb-3">{key}</h3>
-                          <div className="space-y-2">
-                            <p className="text-sm font-medium">{value.platform}</p>
-                            <p className="text-sm text-gray-400">{value.function}</p>
-                            <div className="space-y-1">
-                              {value.examples?.map((example, exIndex) => (
-                                <div key={exIndex} className="text-xs text-gray-500">• {example}</div>
-                              ))}
+                      {Object.entries(block.structure).map(([key, value]) => {
+                        // Type guard to ensure value has the expected structure
+                        const structureItem = value as FrameworkStructureItem;
+                        return (
+                          <div key={key} className="bg-gray-800/50 rounded-lg p-4">
+                            <h3 className="font-semibold text-blue-400 mb-3">{key}</h3>
+                            <div className="space-y-2">
+                              <p className="text-sm font-medium">{structureItem.platform}</p>
+                              <p className="text-sm text-gray-400">{structureItem.function}</p>
+                              <div className="space-y-1">
+                                {structureItem.examples?.map((example, exIndex) => (
+                                  <div key={exIndex} className="text-xs text-gray-500">• {example}</div>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
 
