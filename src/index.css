@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -97,5 +91,79 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
+  }
+
+  /* Enhanced reading typography */
+  .reading-content {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Concept link styling */
+  .concept-link {
+    @apply text-blue-400 underline decoration-dotted cursor-pointer transition-colors;
+    text-decoration-color: rgb(96 165 250 / 0.5);
+  }
+
+  .concept-link:hover {
+    @apply text-blue-300 bg-blue-500/10;
+    text-decoration-color: rgb(147 197 253);
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgb(31 41 55);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(75 85 99);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(107 114 128);
+  }
+
+  /* Touch targets for mobile */
+  @media (max-width: 768px) {
+    button, .concept-link {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  /* Enhanced focus states for accessibility */
+  button:focus-visible,
+  .concept-link:focus-visible {
+    @apply outline-2 outline-blue-500 outline-offset-2;
+  }
+
+  /* Animation for concept highlights */
+  @keyframes highlight {
+    0% { background-color: rgba(59, 130, 246, 0.3); }
+    100% { background-color: transparent; }
+  }
+
+  .concept-highlight {
+    animation: highlight 2s ease-out;
+  }
+
+  /* Improved mobile typography */
+  @media (max-width: 640px) {
+    .reading-content {
+      font-size: 16px;
+      line-height: 1.6;
+    }
   }
 }
