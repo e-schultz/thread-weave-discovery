@@ -57,6 +57,8 @@ export interface ConceptDetail {
   examples?: string[];
   principles?: string[];
   platform_triad?: Record<string, string>;
+  structure?: Record<string, string>;
+  capabilities?: string[];
   appears_in: {
     chunk: string;
     title: string;
