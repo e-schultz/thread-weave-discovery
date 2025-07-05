@@ -1,0 +1,7 @@
+{
+  "projectName": "thread-weave-discovery",
+  "subdomain": "thread-weave-discovery",
+  "framework": "vite",
+  "buildCommand": "npx vite build",
+  "outputDirectory": "dist"
+}
