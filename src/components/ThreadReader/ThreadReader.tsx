@@ -155,7 +155,8 @@ export const ThreadReader = () => {
     return () => container.removeEventListener('click', handleClick);
   }, [currentChunk, useIntegratedView]);
 
-  const currentChunkData = currentData.chunks[currentChunk];
+  const safeIndex = Math.min(Math.max(0, currentChunk), Math.max(0, currentData.chunks.length - 1));
+  const currentChunkData = currentData.chunks[safeIndex];
 
   const handlePrevious = () => {
     if (currentChunk > 0) {
