@@ -24,6 +24,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
       <div className="flex items-center justify-between p-4">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
+          aria-label={sidebarOpen ? 'Close sidebar' : 'Open sidebar'}
           className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 transition-colors"
         >
           <Search size={20} />
@@ -35,6 +36,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
           <button
             onClick={onPrevious}
             disabled={currentChunk === 0}
+            aria-label="Go to previous chunk"
             className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronLeft size={20} />
@@ -42,6 +44,7 @@ export const MobileHeader: React.FC<MobileHeaderProps> = ({
           <button
             onClick={onNext}
             disabled={currentChunk === totalChunks - 1}
+            aria-label="Go to next chunk"
             className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronRight size={20} />

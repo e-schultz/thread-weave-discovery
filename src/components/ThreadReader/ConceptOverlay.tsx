@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ConceptDetail } from '../../types/thread';
 
 interface ConceptOverlayProps {
@@ -11,17 +11,63 @@ interface ConceptOverlayProps {
 export const ConceptOverlay: React.FC<ConceptOverlayProps> = ({
   selectedConcept,
   onClose,
-  onNavigateToChunk
+  onNavigateToChunk,
 }) => {
   if (!selectedConcept) return null;
 
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
+  const headingId = 'concept-overlay-title';
+
+  useEffect(() => {
+    if (!selectedConcept) return;
+    previouslyFocusedRef.current = document.activeElement as HTMLElement;
+    overlayRef.current?.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+      if (e.key === 'Tab' && overlayRef.current) {
+        const focusable = overlayRef.current.querySelectorAll<HTMLElement>(
+          'a, button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previouslyFocusedRef.current?.focus?.();
+    };
+  }, [selectedConcept, onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
-      <div className="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div
+      ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={headingId}
+      tabIndex={-1}
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+    >
+      <div className="bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-enter">
         <div className="sticky top-0 bg-gray-800 p-6 border-b border-gray-700">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-2xl font-bold mb-2">{selectedConcept.title}</h2>
+              <h2 id={headingId} className="text-2xl font-bold mb-2">{selectedConcept.title}</h2>
               {selectedConcept.category && (
                 <span className="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full text-sm">
                   {selectedConcept.category.replace('_', ' ')}
@@ -30,6 +76,7 @@ export const ConceptOverlay: React.FC<ConceptOverlayProps> = ({
             </div>
             <button
               onClick={onClose}
+              aria-label="Close concept details"
               className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
             >
               ✕

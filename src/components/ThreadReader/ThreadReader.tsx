@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { ChevronLeft, ChevronRight, Layers } from 'lucide-react';
 import { threadData } from '../../data/threadData';
 import { integratedThreadData } from '../../data/integratedThreadData';
@@ -7,7 +7,8 @@ import { MobileHeader } from './MobileHeader';
 import { Sidebar } from './Sidebar';
 import { ContentBlock } from './ContentBlock';
 import { ConceptOverlay } from './ConceptOverlay';
-
+import { useSearchParams } from 'react-router-dom';
+import { Progress } from '../ui/progress';
 export const ThreadReader = () => {
   const [currentChunk, setCurrentChunk] = useState(0);
   const [selectedConcept, setSelectedConcept] = useState<ConceptDetail | null>(null);
@@ -15,10 +16,17 @@ export const ThreadReader = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [useIntegratedView, setUseIntegratedView] = useState(false);
   const mainContentRef = useRef<HTMLDivElement>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initRef = useRef(false);
 
   // Select data source based on view toggle
   const currentData = useIntegratedView ? integratedThreadData : threadData;
 
+  // Progress value for current position
+  const progressValue = useMemo(
+    () => Math.round(((currentChunk + 1) / currentData.chunks.length) * 100),
+    [currentChunk, currentData.chunks.length]
+  );
   // Process content to add concept links
   const processContent = (content: string, concepts: any[] = []) => {
     let processedContent = content;
@@ -51,8 +59,8 @@ export const ThreadReader = () => {
     if (chunkIndex !== -1) {
       setCurrentChunk(chunkIndex);
       setSelectedConcept(null);
-      
-      // Smooth scroll to top
+      // Smooth scroll to top of window and content container
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       if (mainContentRef.current) {
         mainContentRef.current.scrollTop = 0;
       }
@@ -66,19 +74,61 @@ export const ThreadReader = () => {
     }
   }, [useIntegratedView, currentData.chunks.length, currentChunk]);
 
+  // Initialize from URL params (runs once)
+  useEffect(() => {
+    if (initRef.current) return;
+    initRef.current = true;
+
+    const viewParam = searchParams.get('view');
+    const dataSource = viewParam === 'integrated' ? integratedThreadData : threadData;
+
+    if (viewParam) setUseIntegratedView(viewParam === 'integrated');
+
+    const chunkParam = searchParams.get('chunk');
+    if (chunkParam) {
+      const idx = dataSource.chunks.findIndex((c) => c.id === chunkParam);
+      if (idx !== -1) setCurrentChunk(idx);
+    }
+
+    const conceptParam = searchParams.get('concept');
+    if (conceptParam) {
+      const c = dataSource.concepts[conceptParam];
+      if (c) setSelectedConcept(c);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Sync state to URL params
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set('view', useIntegratedView ? 'integrated' : 'original');
+    const chunkId = currentData.chunks[currentChunk]?.id;
+    if (chunkId) params.set('chunk', chunkId);
+    if (selectedConcept?.id) params.set('concept', selectedConcept.id);
+    setSearchParams(params, { replace: true });
+  }, [useIntegratedView, currentChunk, selectedConcept, currentData, setSearchParams]);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const tag = (target?.tagName || '').toLowerCase();
+      const isEditable = target?.isContentEditable || tag === 'input' || tag === 'textarea' || tag === 'select';
+
+      if (isEditable) return;
+
       if (selectedConcept && e.key === 'Escape') {
         setSelectedConcept(null);
         return;
       }
-      
+
       if (!selectedConcept) {
-        if (e.key === 'ArrowLeft' && currentChunk > 0) {
+        if ((e.key === 'ArrowLeft' || e.key.toLowerCase() === 'k') && currentChunk > 0) {
           setCurrentChunk(currentChunk - 1);
-        } else if (e.key === 'ArrowRight' && currentChunk < currentData.chunks.length - 1) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if ((e.key === 'ArrowRight' || e.key.toLowerCase() === 'j') && currentChunk < currentData.chunks.length - 1) {
           setCurrentChunk(currentChunk + 1);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
       }
     };
@@ -87,35 +137,39 @@ export const ThreadReader = () => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [currentChunk, selectedConcept, currentData.chunks.length]);
 
-  // Set up concept link click handlers
+  // Set up concept link click handlers (event delegation)
   useEffect(() => {
-    const links = document.querySelectorAll('.concept-link');
-    const handleClick = (e: Event) => {
+    const container = mainContentRef.current;
+    if (!container) return;
+
+    const handleClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const linkEl = target.closest('.concept-link') as HTMLElement | null;
+      if (!linkEl) return;
       e.preventDefault();
-      const conceptId = (e.target as HTMLElement).getAttribute('data-concept');
-      if (conceptId) {
-        handleConceptClick(conceptId);
-      }
+      const conceptId = linkEl.getAttribute('data-concept');
+      if (conceptId) handleConceptClick(conceptId);
     };
 
-    links.forEach(link => link.addEventListener('click', handleClick));
-    return () => links.forEach(link => link.removeEventListener('click', handleClick));
-  });
+    container.addEventListener('click', handleClick);
+    return () => container.removeEventListener('click', handleClick);
+  }, [currentChunk, useIntegratedView]);
 
   const currentChunkData = currentData.chunks[currentChunk];
 
   const handlePrevious = () => {
     if (currentChunk > 0) {
       setCurrentChunk(currentChunk - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
   const handleNext = () => {
     if (currentChunk < currentData.chunks.length - 1) {
       setCurrentChunk(currentChunk + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
-
   return (
     <div className="min-h-screen bg-gray-900 text-white font-sans">
       {/* Mobile Header */}
@@ -182,6 +236,12 @@ export const ThreadReader = () => {
               </div>
             </header>
 
+            {/* Progress */}
+            <div className="mb-6">
+              <Progress value={progressValue} />
+              <div className="mt-2 text-xs text-gray-400">{progressValue}% complete</div>
+            </div>
+
             {/* Blocks */}
             <div className="space-y-8">
               {currentChunkData.blocks.map((block, index) => (
@@ -199,6 +259,7 @@ export const ThreadReader = () => {
                 <button
                   onClick={handlePrevious}
                   disabled={currentChunk === 0}
+                  aria-label="Go to previous chunk"
                   className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
                 >
                   <ChevronLeft size={20} />
@@ -212,6 +273,7 @@ export const ThreadReader = () => {
                 <button
                   onClick={handleNext}
                   disabled={currentChunk === currentData.chunks.length - 1}
+                  aria-label="Go to next chunk"
                   className="flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
                 >
                   <span className="hidden sm:inline">Next</span>
