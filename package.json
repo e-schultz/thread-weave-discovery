@@ -1,8 +1,14 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "thread-weave-discovery",
+  "description": "Interactive thread reader with concept mapping for FLOAT conversations - turn conversations into threadreader-style exploration",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/e-schultz/thread-weave-discovery.git"
+  },
+  "homepage": "https://github.com/e-schultz/thread-weave-discovery",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

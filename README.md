@@ -1,6 +1,11 @@
 
 # FLOAT Thread Reader
 
+**Turn conversations into threadreader-style exploration with concept mapping and integrated views**
+
+[![GitHub](https://img.shields.io/badge/GitHub-thread--weave--discovery-black?style=for-the-badge&logo=github)](https://github.com/e-schultz/thread-weave-discovery)
+[![Built with Lovable](https://img.shields.io/badge/Built%20with-Lovable-black?style=for-the-badge)](https://lovable.dev/projects/0c28613d-35af-4107-81c1-a36fb438278f)
+
 A sophisticated thread reader application for exploring complex conversation threads with concept mapping and integrated views.
 
 ## Project Overview
@@ -154,6 +159,29 @@ This project follows modern React development practices:
 ## License
 
 This project is built with Lovable and follows standard web application licensing practices.
+
+## Screenshots
+
+### Concept Overlay: Triadic Patterns
+Interactive concept exploration showing detailed information, examples, and cross-references. Click any highlighted concept in the thread to see its connections and appearances throughout the conversation.
+
+![Concept Overlay showing Triadic Patterns](docs/screenshots/concept-overlay-triadic-patterns.png)
+
+### Thread Reader Interface
+Main reading interface with sidebar navigation, search, and dual view modes (original vs integrated). Navigate through conversation chunks with keyboard shortcuts or UI controls.
+
+![Thread Reader Interface](docs/screenshots/thread-reader-interface.png)
+
+## Integration
+
+Part of the **ritual-forest** consciousness technology laboratory:
+- **Repository**: [github.com/e-schultz/thread-weave-discovery](https://github.com/e-schultz/thread-weave-discovery)
+- **Ecosystem**: Ritual Stack & FLOAT consciousness technology
+- **Purpose**: Transform complex conversations into navigable, concept-mapped threads for pattern recognition and knowledge archaeology
+
+---
+
+*Consciousness technology deployed. The infrastructure holds. ⚡*
 
 ## Links
 
