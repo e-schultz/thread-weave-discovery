@@ -44,6 +44,10 @@ export default {
 					DEFAULT: 'hsl(var(--accent))',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
+				warning: {
+					DEFAULT: 'hsl(var(--warning))',
+					foreground: 'hsl(var(--warning-foreground))'
+				},
 				popover: {
 					DEFAULT: 'hsl(var(--popover))',
 					foreground: 'hsl(var(--popover-foreground))'
@@ -61,12 +65,24 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// FLOAT Persona colors
+				sysop: 'hsl(var(--sysop))',
+				karen: 'hsl(var(--karen))',
+				evna: 'hsl(var(--evna))',
+				lf1m: 'hsl(var(--lf1m))',
+				qtb: 'hsl(var(--qtb))',
+				float: 'hsl(var(--float))',
+				'ritual-dark': 'hsl(var(--ritual-dark))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
-				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				md: 'var(--radius)',
+				sm: 'var(--radius-code)',
+				none: '0'
+			},
+			fontFamily: {
+				mono: ['IBM Plex Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', 'monospace']
 			},
 			keyframes: {
 				'accordion-down': {

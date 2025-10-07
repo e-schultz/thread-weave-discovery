@@ -4,83 +4,74 @@
 @tailwind utilities;
 
 @layer base {
+  /* FLOAT Design System - Neon Dusk Palette */
+  /* Terminal/Glitch Aesthetic - High Contrast Dark Mode */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Core Background - Pure Black */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 100%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Ritual Dark - Secondary surfaces */
+    --ritual-dark: 270 100% 4%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Card surfaces */
+    --card: 270 100% 4%;
+    --card-foreground: 0 0% 100%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Popover */
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Primary Accent - Neon Purple (Infrastructure Archaeology) */
+    --primary: 277 100% 64%;
+    --primary-foreground: 0 0% 0%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Secondary - Red (Consciousness Technology) */
+    --secondary: 344 100% 62%;
+    --secondary-foreground: 0 0% 100%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted - Subtle gray for less emphasis */
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 65%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Accent - Neon Green (Success/Fixed/AI Gaslighting) */
+    --accent: 148 73% 55%;
+    --accent-foreground: 0 0% 0%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Destructive - Neon Red */
+    --destructive: 344 100% 62%;
+    --destructive-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* Warning - Neon Yellow */
+    --warning: 60 100% 62%;
+    --warning-foreground: 0 0% 0%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
+    /* Borders - Visible, color-coded */
+    --border: 277 100% 64%;
+    --input: 0 0% 15%;
+    --ring: 277 100% 64%;
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Sharp corners - No rounding except for code blocks */
+    --radius: 0rem;
+    --radius-code: 0.125rem;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* Persona Colors */
+    --sysop: 270 100% 60%; /* Violet - Infrastructure */
+    --karen: 328 100% 54%; /* Fuchsia - Boundaries */
+    --evna: 88 73% 55%; /* Lime Green - Substrate */
+    --lf1m: 24 100% 50%; /* Orange - Chaos */
+    --qtb: 328 100% 70%; /* Pink - Identity */
+    --float: 190 100% 50%; /* Cyan - Meta-architecture */
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    /* Sidebar - Terminal aesthetic */
+    --sidebar-background: 0 0% 0%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 277 100% 64%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 270 100% 4%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 277 100% 64%;
+    --sidebar-ring: 277 100% 64%;
   }
 }
 
@@ -91,8 +82,9 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    line-height: 1.7;
+    /* FLOAT: Terminal Aesthetic - Monospace fonts required */
+    font-family: 'IBM Plex Mono', 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+    line-height: 1.6;
   }
 
   /* Enhanced reading typography */
@@ -101,15 +93,19 @@
     line-height: 1.7;
   }
 
-  /* Concept link styling */
+  /* Concept link styling - FLOAT Neon aesthetic */
   .concept-link {
-    @apply text-blue-400 underline decoration-dotted cursor-pointer transition-colors;
-    text-decoration-color: rgb(96 165 250 / 0.5);
+    @apply cursor-pointer transition-colors;
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: hsl(var(--primary) / 0.5);
   }
 
   .concept-link:hover {
-    @apply text-blue-300 bg-blue-500/10;
-    text-decoration-color: rgb(147 197 253);
+    color: hsl(var(--accent));
+    background-color: hsl(var(--accent) / 0.1);
+    text-decoration-color: hsl(var(--accent));
   }
 
   /* Smooth scrolling */
@@ -117,22 +113,22 @@
     scroll-behavior: smooth;
   }
 
-  /* Custom scrollbar for webkit browsers */
+  /* Custom scrollbar - FLOAT Terminal aesthetic */
   ::-webkit-scrollbar {
     width: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    background: rgb(31 41 55);
+    background: hsl(var(--background));
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgb(75 85 99);
-    border-radius: 4px;
+    background: hsl(var(--primary));
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(107 114 128);
+    background: hsl(var(--accent));
   }
 
   /* Touch targets for mobile */
@@ -143,20 +139,47 @@
     }
   }
 
-  /* Enhanced focus states for accessibility */
+  /* Enhanced focus states - FLOAT Terminal aesthetic */
   button:focus-visible,
   .concept-link:focus-visible {
-    @apply outline-2 outline-blue-500 outline-offset-2;
+    outline: 2px solid hsl(var(--primary));
+    outline-offset: 2px;
   }
 
-  /* Animation for concept highlights */
+  /* Animation for concept highlights - Neon glow */
   @keyframes highlight {
-    0% { background-color: rgba(59, 130, 246, 0.3); }
+    0% { background-color: hsl(var(--primary) / 0.3); }
     100% { background-color: transparent; }
   }
 
   .concept-highlight {
     animation: highlight 2s ease-out;
+  }
+
+  /* FLOAT Ritual Grammar - Annotation styles */
+  .ritual-marker {
+    color: hsl(var(--primary));
+    font-weight: 600;
+  }
+
+  /* Persona-themed elements */
+  .persona-sysop { border-color: hsl(var(--sysop)); }
+  .persona-karen { border-color: hsl(var(--karen)); }
+  .persona-evna { border-color: hsl(var(--evna)); }
+  .persona-lf1m { border-color: hsl(var(--lf1m)); }
+  .persona-qtb { border-color: hsl(var(--qtb)); }
+  .persona-float { border-color: hsl(var(--float)); }
+
+  /* Terminal panel styling */
+  .terminal-panel {
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    border-radius: 0;
+  }
+
+  /* Code blocks get slight rounding per FLOAT spec */
+  pre, code {
+    border-radius: var(--radius-code);
   }
 
   /* Improved mobile typography */
